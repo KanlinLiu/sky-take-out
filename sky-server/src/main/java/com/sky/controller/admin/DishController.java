@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 菜品管理
+ * 菜品管理设计
  */
 @RestController
 @RequestMapping("/admin/dish")

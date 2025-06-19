@@ -6,6 +6,9 @@ import com.sky.enumeration.OperationType;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+/**
+ * 菜品管理持久层
+ */
 @Mapper
 public interface DishMapper {
 

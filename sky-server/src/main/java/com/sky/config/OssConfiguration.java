@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 配置类，用于创建阿里云文件上传的Bean对象
+ * 配置类，用于创建阿里云文件上传
  */
 @Configuration
 @Slf4j
