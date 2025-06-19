@@ -8,4 +8,30 @@
         INSERT INTO dish (name, category_id, price, description, image, status, create_time, create_user, update_time, update_user)
         VALUES (#{name}, #{categoryId}, #{price}, #{description}, #{image}, #{status},  #{createTime}, #{createUser}, #{updateTime}, #{updateUser})
     </insert>
+    <select id="pageQuery" resultType="com.sky.vo.DishVO">
+        SELECT d.id, d.name, d.category_id, d.price, d.description, d.image, d.status,
+               d.create_time, d.create_user, d.update_time, d.update_user,
+               c.name AS category_name
+        FROM dish d
+        LEFT JOIN category c ON d.category_id = c.id
+        <where>
+            <if test="name != null and name != ''">
+                AND d.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="categoryId != null">
+                AND d.category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                AND d.status = #{status}
+            </if>
+        </where>
+        ORDER BY d.update_time DESC
+    </select>
+    <delete id="deleteByIds">
+        DELETE FROM dish
+        WHERE id IN
+        <foreach collection="ids" item="id" separator=", " open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>
