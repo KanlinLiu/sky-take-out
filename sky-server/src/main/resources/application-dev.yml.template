@@ -6,6 +6,7 @@ sky:
     database: sky_take_out
     username: your_username
     password: your_password
+
   alioss:
     endpoint: oss-endpoint-url
     access-key-id: your-access-key-id
