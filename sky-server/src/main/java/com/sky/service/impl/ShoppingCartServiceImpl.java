@@ -56,14 +56,35 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public void cleanShoppingCart() {
         //获取到当前微信用户的id
         Long userId = BaseContext.getCurrentId();
-        shoppingCartMapper.deleteByIds(userId);
+        shoppingCartMapper.deleteByUserId(userId);
+    }
+
+    /**
+     * 删除购物车中一个商品
+     * @param shoppingCartDTO
+     */
+    @Override
+    public void sub(ShoppingCartDTO shoppingCartDTO) {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        BeanUtils.copyProperties(shoppingCartDTO, shoppingCart);
+        //查询当前登录用户的购物车数据
+        shoppingCart.setUserId(BaseContext.getCurrentId());
+        List<ShoppingCart> list = shoppingCartMapper.list(shoppingCart);
+        if (list != null && !list.isEmpty()) {
+            ShoppingCart cart = list.get(0);
+            if (cart.getNumber() > 1) {
+                cart.setNumber(cart.getNumber() - 1);
+                shoppingCartMapper.updateNumberById(cart);
+            }else{
+                shoppingCartMapper.deleteById(cart.getId());
+            }
+        }
     }
 
     /**
      * 添加购物车
      * @param shoppingCartDTO
      */
-
     @Override
     public void add(ShoppingCartDTO shoppingCartDTO) {
         //判断当前加入到购物车中的商品是否已经存在
@@ -99,7 +120,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             shoppingCart.setCreateTime(LocalDateTime.now());
             shoppingCartMapper.insert(shoppingCart);
         }
-
 
     }
 }
